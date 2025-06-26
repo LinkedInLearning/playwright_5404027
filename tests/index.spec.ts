@@ -18,7 +18,6 @@ test('Bottom link return to the top', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('link', { name: 'Haut de page' }).click();
   await expect(page.locator('#chercher')).toBeVisible();
-  
 });
 
 test('Click on "Chercher" reset search', async ({ page }) => {
