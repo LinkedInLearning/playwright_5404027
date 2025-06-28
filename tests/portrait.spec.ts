@@ -9,20 +9,27 @@ test('Select "Nez" filters the palette', async ({ page }) => {
 
 test('Set the portrait title', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
-  // TODO
+  await page.getByPlaceholder('Titre du portrait').fill('Vertumne');
+  await page.getByRole('button', { name: 'Ok' }).click();
+  await expect(page.getByRole('figure').getByRole('heading')).toHaveText('Vertumne');
 });
 
 test('Set invalid portrait title', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
-  // TODO
+  await page.getByPlaceholder('Titre du portrait').fill('V');
+  await page.getByRole('button', { name: 'Ok' }).focus();
+  await expect(page.locator('input[type=text]:invalid')).toHaveCount(1);
+  await expect(page.getByRole('figure').getByRole('heading')).toHaveText('(sans titre)');
 });
 
 test('Hide portrait title', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
-  // TODO
+  await page.getByLabel('Titre visible').uncheck();
+  await expect(page.getByRole('figure').getByRole('heading')).toBeHidden();
 });
 
 test('Change default item size', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
-  // TODO
+  await page.getByLabel('Taille :').fill('8');
+  await expect(page.locator('#valeur')).toHaveText('8');
 });
