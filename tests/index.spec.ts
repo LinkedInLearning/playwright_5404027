@@ -12,7 +12,8 @@ test('Search is ready on load', async ({ page }) => {
 
 test('Select menu "Portrait" goes to the page', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
-  // TODO
+  await page.getByRole('link', { name: 'Portrait' }).click();
+  await expect(page).toHaveURL(/.*\/portrait.html$/);
 });
 
 test('All fruits displayed', async ({ page }) => {
