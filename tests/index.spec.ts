@@ -10,6 +10,10 @@ test('Simple search with results', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('searchbox', { name: 'Chercher' }).click();
   await page.getByRole('searchbox', { name: 'Chercher' }).fill('ana');
+  await expect(page.getByRole("listitem")
+                   .filter({ has: page.getByRole('img') })
+                   .filter({ hasNotText: 'Autres' })
+        ).toHaveCount(2);
   await expect(page.getByText(/^Ananas.*Banane/i)).toBeVisible();
 });
 
@@ -23,7 +27,7 @@ test('Simple search with no result', async ({ page }) => {
 test('Bottom link return to the top', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('link', { name: 'Haut de page' }).click();
-  await expect(page.locator('#chercher')).toBeVisible();
+  await expect(page.getByRole('navigation').getByRole('link', { name: 'chercher' })).toBeVisible();
 });
 
 test('Click on "Chercher" reset search', async ({ page }) => {
