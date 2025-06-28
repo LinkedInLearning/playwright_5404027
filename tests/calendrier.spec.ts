@@ -4,13 +4,15 @@ import { test, expect } from '@playwright/test';
 test('Check calendar for "Janvier"', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/calendrier.html');
 
-  // Cliquer sur le lien "Janvier"
-  // Vérifier qu'on a bien 11 éléments
+  const frame = page.frameLocator('main iframe');
+  await frame.getByRole('link', { name: 'Janvier' }).click();
+  await expect(frame.locator('main>div').getByRole('listitem')).toHaveCount(11);
 });
 
 test('Check calendar for "Août"', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/calendrier.html');
 
-  // Cliquer sur le lien "Août"
-  // Vérifier qu'on a bien 24 éléments
+  const frame = page.frameLocator('main iframe');
+  await frame.getByRole('link', { name: 'Août' }).click();
+  await expect(frame.locator('main>div').getByRole('listitem')).toHaveCount(24);
 });
