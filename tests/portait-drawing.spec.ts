@@ -49,7 +49,7 @@ test('Select background', async ({ page }) => {
   const canvas = page.getByRole('figure').getByRole('grid');
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
   
-  // TODO : Upload tests/data/bg.jpg for the background
+  await page.getByLabel('Fond').setInputFiles(['tests/data/bg.jpg']);
 
   const canvasCenter = await centerOf(canvas);
   await page.mouse.move(canvasCenter.x, canvasCenter.y);
