@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 
+test('Search is ready on load', async ({ page }) => {
+  const searchBox = page.getByRole('searchbox', { name: 'Chercher' });
+  
+  await page.goto('https://labasse.github.io/tutti-frutti/');
+  await expect(searchBox).toBeVisible();
+});
+
 test('All fruits displayed', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/index.html');
   await expect(page.getByAltText(/\(fruit\)$/)).toHaveCount(11);
@@ -27,7 +34,10 @@ test('Simple search with no result', async ({ page }) => {
 test('Bottom link return to the top', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('link', { name: 'Haut de page' }).click();
-  await expect(page.getByRole('navigation').getByRole('link', { name: 'chercher' })).toBeVisible();
+  await expect(page
+                .getByRole('navigation')
+                .getByRole('link', { name: 'chercher' })
+              ).toBeVisible();
 });
 
 test('Click on "Chercher" reset search', async ({ page }) => {
