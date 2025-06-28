@@ -10,8 +10,13 @@ test('Search is ready on load', async ({ page }) => {
   await expect(searchBox).toBeFocused();
 });
 
+test('Select menu "Portrait" goes to the page', async ({ page }) => {
+  await page.goto('https://labasse.github.io/tutti-frutti/');
+  // TODO
+});
+
 test('All fruits displayed', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/index.html');
+  await page.goto('https://labasse.github.io/tutti-frutti/');
   await expect(page.getByAltText(/\(fruit\)$/)).toHaveCount(11);
 });
 
