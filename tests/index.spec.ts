@@ -5,7 +5,9 @@ test('Search is ready on load', async ({ page }) => {
   const searchBox = page.getByRole('searchbox', { name: 'Chercher' });
   
   await page.goto('https://labasse.github.io/tutti-frutti/');
-  await expect(searchBox).toBeVisible();
+  await expect(searchBox).toBeEnabled();
+  await expect(searchBox).toBeEditable();
+  await expect(searchBox).toBeFocused();
 });
 
 test('All fruits displayed', async ({ page }) => {
@@ -20,7 +22,9 @@ test('Simple search with results', async ({ page }) => {
   await expect(page.getByRole("listitem")
                    .filter({ has: page.getByRole('img') })
                    .filter({ hasNotText: 'Autres' })
-        ).toHaveCount(2);
+                   .getByRole('heading', { level: 5 })
+        ).toHaveText(['Ananas', 'Banane']);
+  await expect(page.getByRole('searchbox', { name: 'Chercher' })).not.toBeEmpty();
   await expect(page.getByText(/^Ananas.*Banane/i)).toBeVisible();
 });
 
@@ -28,7 +32,7 @@ test('Simple search with no result', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('searchbox', { name: 'Chercher' }).click();
   await page.getByRole('searchbox', { name: 'Chercher' }).fill('xyz');
-  await expect(page.locator('#liste>div>.row')).toContainText(/^$/);
+  await expect(page.locator('#liste>div>.row')).toBeEmpty();
 });
 
 test('Bottom link return to the top', async ({ page }) => {
@@ -37,7 +41,7 @@ test('Bottom link return to the top', async ({ page }) => {
   await expect(page
                 .getByRole('navigation')
                 .getByRole('link', { name: 'chercher' })
-              ).toBeVisible();
+              ).toBeInViewport();
 });
 
 test('Click on "Chercher" reset search', async ({ page }) => {
