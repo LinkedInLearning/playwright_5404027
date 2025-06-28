@@ -1,5 +1,11 @@
 import { test, expect } from '@playwright/test';
 
+
+test('All fruits displayed', async ({ page }) => {
+  await page.goto('https://labasse.github.io/tutti-frutti/index.html');
+  await expect(page.locator('#liste img')).toHaveCount(11);
+});
+
 test('Simple search with results', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('searchbox', { name: 'Chercher' }).click();
@@ -11,7 +17,7 @@ test('Simple search with no result', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/');
   await page.getByRole('searchbox', { name: 'Chercher' }).click();
   await page.getByRole('searchbox', { name: 'Chercher' }).fill('xyz');
-  await expect(page.locator('#liste')).toContainText('');
+  await expect(page.locator('#liste>div>.row')).toContainText(/^$/);
 });
 
 test('Bottom link return to the top', async ({ page }) => {
