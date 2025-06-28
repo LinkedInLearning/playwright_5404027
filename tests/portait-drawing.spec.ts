@@ -27,14 +27,35 @@ async function drag2ElementsToCanvas(page: Page, palette: Locator) : Promise<voi
   await palette.nth(1).dragTo(canvas);
 }
 
+async function centerOf(locator: Locator): Promise<{ x: number, y: number }> {
+  const box = await locator.boundingBox();
+  
+  return box 
+    ? { x: box.x + box.width / 2, y: box.y + box.height / 2 } 
+    : { x: 0, y: 0 };
+}
+
 test('Select with mouse', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
   await drag2ElementsToCanvas(page, page.locator('#palette').getByRole('listitem'));
-  const f1Pos = await page.locator('#f1').boundingBox() || { x: 0, y: 0, width: 0, height: 0 } ;
- 
-  await page.mouse.click(f1Pos.x + f1Pos.width/2, f1Pos.y+f1Pos.height/2);
+  const f1Center = await centerOf(page.locator('#f1'));
+
+  await page.mouse.click(f1Center.x, f1Center.y);
  
   await expect(page.getByRole('figure').getByRole('gridcell', {selected : true})).toHaveId('f1');
+});
+
+test('Select background', async ({ page }) => {
+  const canvas = page.getByRole('figure').getByRole('grid');
+  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  
+  // TODO : Upload tests/data/bg.jpg for the background
+
+  const canvasCenter = await centerOf(canvas);
+  await page.mouse.move(canvasCenter.x, canvasCenter.y);
+  await page.mouse.wheel(0, 200);
+  
+  await expect(canvas).toHaveCSS('background-image', /^url\("data\:image\/jpeg;base64.*"\)/);
 });
 
 test('Delete current item', async ({ page }) => {
