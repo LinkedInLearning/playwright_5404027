@@ -41,7 +41,7 @@ test('Delete current item', async ({ page }) => {
   await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
   await drag2ElementsToCanvas(page, page.locator('#palette').getByRole('listitem'));
 
-  // Appui sur la touche Suppr
+  await page.keyboard.press('Delete');
   
   await expect(page.getByRole('figure').getByRole('gridcell')).toHaveCount(1);
 });
