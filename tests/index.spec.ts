@@ -9,11 +9,7 @@ test.describe('Home page tests', () => {
     searchBox = page.getByRole('searchbox', { name: 'Chercher' })
   });
 
-  test.afterEach(async () => {
-    // clean up after each test
-  });
-
-  test('Search is ready on load', async ({ page }) => {
+  test('Search is ready on load', async () => {
     await expect(searchBox).toBeEnabled();
     await expect(searchBox).toBeEditable();
     await expect(searchBox).toBeFocused();
