@@ -5,8 +5,8 @@ import { Nav } from './nav';
 export const test = base.extend<{
   nav: Nav,
 }, {
-  adminUser: User,
-  normalUser: User,
+  stdUser: User,
+  pbUser: User,
 }>({
     nav: async ({ page }, use) => { 
         console.log('Fixture nav : Init');
@@ -17,21 +17,21 @@ export const test = base.extend<{
 
         console.log('Fixture nav : Shut');
     },
-    adminUser: [
+    stdUser: [
       async ({ browser }, use) => {
         const user = await User.login(
           browser, test.info(), 
-          'admin', '(mot de passe)'
+          'standard_user', 'secret_sauce'
         );
         await use(user);
         await user.resetState();
       }, { scope: 'worker' }
     ],
-    normalUser: [
+    pbUser: [
       async ({ browser }, use) => {        
         const user = await User.login(
           browser, test.info(), 
-          'normal', '(mot de passe)'
+          'problem_user', 'secret_sauce'
         ); 
         await use(user);
         await user.resetState();

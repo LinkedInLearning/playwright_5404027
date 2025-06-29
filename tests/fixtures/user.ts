@@ -2,8 +2,8 @@ import { Browser, Page, TestInfo } from "@playwright/test";
 import fs from "fs";
 
 export class User {
-    static readonly authorizedUrl = 'https://.../profile.html';
-    static readonly loginUrl = 'https://.../login.html';
+    static readonly authorizedUrl = 'https://www.saucedemo.com/inventory.html';
+    static readonly loginUrl = 'https://www.saucedemo.com/';
     
     private constructor(readonly username: string, readonly storageState: string, readonly page: Page) 
     { }
@@ -41,14 +41,17 @@ export class User {
             // Connexion
             console.log(`User ${username} not logged in`);   
             await page.goto(User.loginUrl);
-            // TODO : Remplissage du formulaire de connexion
-            // TODO : Connexion
+            await page.getByPlaceholder('Username').fill(name);
+            await page.getByPlaceholder('Password').fill(pwd);
+            await page.getByRole('button', { name: 'Login' }).click();
             await page.context().storageState({ path: storageState });
         }
         // On crée l'utilisateur (Fixture)
         return new User(username, storageState, page);
     }
     async resetState() {
-        // TODO : Réinitialiser l'état de l'utilisateur (si possible)
+        await this.page.goto(User.authorizedUrl);
+        await this.page.getByRole('button', { name: 'Open Menu' }).click();
+        await this.page.getByRole('link', { name: 'Reset App State' }).click();
     }
 }

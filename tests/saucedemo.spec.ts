@@ -17,21 +17,21 @@ test('Unlogged user cannot access inventory', async ({ page }) => {
     expect(page).toHaveURL(User.loginUrl);
 });
 
-test('Add to cart btn becomes Remove btn (standard_user)', async ({ page }) => {
-    const product = page
+test('Add to cart btn becomes Remove btn (standard_user)', async ({ stdUser }) => {
+    const product = stdUser.page
         .getByTestId('inventory-item')
         .filter({ hasText: 'Sauce Labs Bolt T-Shirt' });
-    await page.goto(User.authorizedUrl);
+    await stdUser.page.goto(User.authorizedUrl);
     await product.getByRole('button', { name: 'Add to cart'}).click();
     await expect(product.getByRole('button', { name: 'Remove' })).toBeVisible();
 });
 
-test('Add to cart btn does not change (problem_user)', async ({ page }) => {
-    const buggyBtn = page
+test('Add to cart btn does not change (problem_user)', async ({ pbUser }) => {
+    const buggyBtn = pbUser.page
         .getByTestId('inventory-item')
         .filter({ hasText: 'Sauce Labs Bolt T-Shirt' })
         .getByRole('button', { name: 'Add to cart'});
-    await page.goto(User.authorizedUrl);
+    await pbUser.page.goto(User.authorizedUrl);
     await buggyBtn.click();
     await expect(buggyBtn).toBeVisible();
 });
