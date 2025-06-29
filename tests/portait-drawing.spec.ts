@@ -3,7 +3,7 @@ import { test, expect, Page, Locator } from '@playwright/test';
 
 test('Hover on first palette item', async ({ page }) => {
   const first = page.locator('#palette').getByRole('listitem').nth(0);
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   
   await first.hover();
   
@@ -13,7 +13,7 @@ test('Hover on first palette item', async ({ page }) => {
 test('Drag first palette item to the canvas', async ({ page }) => {
   const first = page.locator('#palette').getByRole('listitem').nth(0);
   const canvas = page.getByRole('figure').getByRole('grid');
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   
   await first.dragTo(canvas, { 'targetPosition': { x: 30, y: 30 } });
   
@@ -36,7 +36,7 @@ async function centerOf(locator: Locator): Promise<{ x: number, y: number }> {
 }
 
 test('Select with mouse', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   await drag2ElementsToCanvas(page, page.locator('#palette').getByRole('listitem'));
   const f1Center = await centerOf(page.locator('#f1'));
 
@@ -47,7 +47,7 @@ test('Select with mouse', async ({ page }) => {
 
 test('Select background', async ({ page }) => {
   const canvas = page.getByRole('figure').getByRole('grid');
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   
   await page.getByLabel('Fond').setInputFiles(['tests/data/bg.jpg']);
 
@@ -59,7 +59,7 @@ test('Select background', async ({ page }) => {
 });
 
 test('Delete current item', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   await drag2ElementsToCanvas(page, page.locator('#palette').getByRole('listitem'));
 
   await page.keyboard.press('Delete');
@@ -68,7 +68,7 @@ test('Delete current item', async ({ page }) => {
 });
 
 test('Delete all items', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/portrait.html');
+  await page.goto('/tutti-frutti/portrait.html');
   await drag2ElementsToCanvas(page, page.locator('#palette').getByRole('listitem'));
 
   page.on('dialog', dlg => dlg.accept());

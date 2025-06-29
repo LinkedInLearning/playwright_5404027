@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 
 test('Check calendar for "Janvier"', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/calendrier.html');
+  await page.goto('/tutti-frutti/calendrier.html');
 
   const frame = page.frameLocator('main iframe');
   await frame.getByRole('link', { name: 'Janvier' }).click();
@@ -10,7 +10,7 @@ test('Check calendar for "Janvier"', async ({ page }) => {
 });
 
 test('Check calendar for "Août"', async ({ page }) => {
-  await page.goto('https://labasse.github.io/tutti-frutti/calendrier.html');
+  await page.goto('/tutti-frutti/calendrier.html');
 
   const frame = page.frameLocator('main iframe');
   await frame.getByRole('link', { name: 'Août' }).click();
@@ -19,7 +19,7 @@ test('Check calendar for "Août"', async ({ page }) => {
 
 test('Get data from API', async ({ request }) => {
     const response = await request.get(
-        'https://labasse.github.io/tutti-frutti/calendrier.json', {
+        '/tutti-frutti/calendrier.json', {
             headers: {
                 'Accept': 'application/json',
             },
