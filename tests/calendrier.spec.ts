@@ -11,8 +11,7 @@ test.describe('Calendrier drawing tests', () => {
     fruitList = frame.locator('main>div').getByRole('listitem');
   });
 
-  test('Current month is selected by default', async ({ page, browser }) => {
-    // await browser.newContext().;
+  test('Current month is selected by default', async ({ page }) => {
     page.clock.setSystemTime(new Date(2025, 0, 1));
     await page.reload();
     await expect(frame.getByRole('link', { name: 'Janvier' })).toHaveClass(/active/);
@@ -22,6 +21,16 @@ test.describe('Calendrier drawing tests', () => {
   test('Check calendar for "Janvier"', async () => {
     await frame.getByRole('link', { name: 'Janvier' }).click();
     await expect(fruitList).toHaveCount(11);
+  });
+
+  test('Check calendar for "Août" (mocked API)', async ({ page }) => {
+    //[
+    //  ["Abricot"          ,  224, "0b000011100000" ],           
+    //  ["Amande fraîche"   ,  192, "0b000011000000" ],    
+    //  ["Amande sèche"     , 4095, "0b111111111111" ]
+    //]
+    await frame.getByRole('link', { name: 'Août' }).click();
+    await expect(fruitList).toHaveCount(3);
   });
 
   test('Check calendar for "Août"', async () => {
