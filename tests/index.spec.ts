@@ -1,10 +1,11 @@
-import { test, expect, Locator } from '@playwright/test';
+import { test } from './fixtures';
+import { expect, Locator } from '@playwright/test';
 
 test.describe('Home page tests', () => {
   let searchBox: Locator;
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/tutti-frutti/');
+  test.beforeEach(async ({ page, nav }) => {
+    await page.goto(nav.home);
     searchBox = page.getByRole('searchbox', { name: 'Chercher' })
   });
 
@@ -18,9 +19,9 @@ test.describe('Home page tests', () => {
     await expect(searchBox).toBeFocused();
   });
 
-  test('Select menu "Portrait" goes to the page', async ({ page }) => {
+  test('Select menu "Portrait" goes to the page', async ({ page, nav }) => {
     await page.getByRole('link', { name: 'Portrait' }).click();
-    await expect(page).toHaveURL(/.*\/portrait.html$/);
+    await expect(page).toHaveURL(RegExp(`^.*${nav.portrait}$`));
   });
 
   test('All fruits displayed', async ({ page }) => {

@@ -1,6 +1,5 @@
 import { test as base } from '@playwright/test';
 import { Nav } from './nav';
-import { Console } from 'console';
 
 export const test = base.extend<{
   nav: Nav,
