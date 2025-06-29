@@ -11,8 +11,11 @@ test.describe('Calendrier drawing tests', () => {
     fruitList = frame.locator('main>div').getByRole('listitem');
   });
 
-  test('Current month is selected by default', async ({ page }) => {
-    // A faire 
+  test('Current month is selected by default', async ({ page, browser }) => {
+    // await browser.newContext().;
+    page.clock.setSystemTime(new Date(2025, 0, 1));
+    await page.reload();
+    await expect(frame.getByRole('link', { name: 'Janvier' })).toHaveClass(/active/);
     await expect(fruitList).toHaveCount(11);
   });
 
