@@ -24,11 +24,18 @@ test.describe('Calendrier drawing tests', () => {
   });
 
   test('Check calendar for "Août" (mocked API)', async ({ page }) => {
-    //[
-    //  ["Abricot"          ,  224, "0b000011100000" ],           
-    //  ["Amande fraîche"   ,  192, "0b000011000000" ],    
-    //  ["Amande sèche"     , 4095, "0b111111111111" ]
-    //]
+    await page.route('*/**/tutti-frutti/calendrier.json', async route => {
+      await route.fulfill({
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        json: [
+          ["Abricot"          ,  224, "0b000011100000" ],           
+          ["Amande fraîche"   ,  192, "0b000011000000" ],    
+          ["Amande sèche"     , 4095, "0b111111111111" ]
+        ]
+      });
+    });
+    await page.reload();
     await frame.getByRole('link', { name: 'Août' }).click();
     await expect(fruitList).toHaveCount(3);
   });
