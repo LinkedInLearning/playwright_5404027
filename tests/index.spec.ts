@@ -18,6 +18,10 @@ test.describe('Home page tests', () => {
   });
 
   test('All fruits displayed', async ({ indexPage }) => {
+    await indexPage.page.screenshot({ 
+      path: 'test-results/screenshots/index-page.png', 
+      fullPage: true 
+    });
     await expect(indexPage.fruitCards).toHaveCount(11);
   });
 

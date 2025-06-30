@@ -43,7 +43,7 @@ test.describe('Portrait drawing tests', () => {
     const f1Center = await centerOf(page.locator('#f1'));
 
     await page.mouse.click(f1Center.x, f1Center.y);
-  
+    await canvas.screenshot({ path: 'test-results/screenshots/canvas.png' });
     await expect(page.getByRole('figure').getByRole('gridcell', {selected : true})).toHaveId('f1');
   });
 
