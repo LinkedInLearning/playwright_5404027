@@ -1,9 +1,11 @@
 import { test as base } from '@playwright/test';
 import { User } from './user';
 import { Nav } from './nav';
+import { IndexPage } from '../pages/index-page';  
 
 export const test = base.extend<{
   nav: Nav,
+  indexPage: IndexPage,
 }, {
   stdUser: User,
   pbUser: User,
@@ -17,6 +19,9 @@ export const test = base.extend<{
 
         console.log('Fixture nav : Shut');
     },
+    indexPage: async ({ page }, use) => 
+      await use(new IndexPage(page)),
+    
     stdUser: [
       async ({ browser }, use) => {
         const user = await User.login(
